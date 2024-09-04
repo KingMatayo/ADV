@@ -63,6 +63,48 @@ ggplot(
     title = "Price and area of houses in Duke Forest"
   )
 
-# Data to ink ratio - continue from here next time
+# Trying out some Summary statistics using group_by() and summarize() function
+mean_area_decade <- duke_forest |>
+  group_by(decade_built_cat) |>
+  summarize(mean_area = mean(area))
 
+mean_area_decade
 
+#Visualization a bar plot of the mean_area by decade - is the ink > data?
+ggplot(
+  mean_area_decade,
+  aes(y = decade_built_cat, x = mean_area)
+) +
+  geom_col() +
+  labs(
+    x = "Mean area (square feet)", y = "Decade built",
+    title = "Mean area of houses in Duke Forest, by decade built"
+  )
+
+#Now visualization a scatter plot instead - whats the balance now? between data to ink
+
+ggplot(
+  mean_area_decade,
+  aes(y = decade_built_cat, x = mean_area)
+) +
+  geom_point(size = 4) +
+  labs(
+    x = "Mean area (square feet)", y = "Decade built",
+    title = "Mean area of houses in Duke Forest, by decade built"
+  )
+
+#How about a lolipop chart? Is this a happy medium?
+
+ggplot(
+  mean_area_decade,
+  aes(y = decade_built_cat, x = mean_area)
+) +
+  geom_point(size = 4) +
+  geom_segment(
+    aes(xend = 0, 
+        yend = decade_built_cat)
+  ) +
+  labs(
+    x = "Mean area (square feet)", y = "Decade built",
+    title = "Mean area of houses in Duke Forest, by decade built"
+  )
